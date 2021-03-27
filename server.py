@@ -11,6 +11,7 @@ from flask import Flask, render_template, request, redirect, g, abort, session
 
 import src.internals.database.database as database
 import src.internals.cache.redis as redis
+import src.internals.cache.py_cache as pycache
 from src.internals.cache.flask_cache import cache
 from src.lib.ab_test import get_all_variants
 from src.lib.account import is_logged_in
@@ -56,6 +57,7 @@ pil_logger.setLevel(logging.INFO)
 cache.init_app(app)
 database.init()
 redis.init()
+pycache.init()
 
 app.config['ENABLE_PASSWORD_VALIDATOR'] = True
 app.config['ENABLE_LOGIN_RATE_LIMITING'] = True

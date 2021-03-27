@@ -1,4 +1,5 @@
 from ..internals.cache.redis import get_conn
+from ..internals.cache.py_cache import get_cache
 from ..internals.database.database import get_cursor
 import ujson
 import dateutil
@@ -7,17 +8,17 @@ import copy
 import re
 
 def get_all_post_keys(reload = False):
-    redis = get_conn()
+    pycache = get_cache()
     key = 'all_post_keys'
-    post_keys = redis.get(key)
+    post_keys = pycache.get(key)
     if post_keys is None or reload:
         cursor = get_cursor()
         query = "SELECT id, \"user\", service FROM posts"
         cursor.execute(query)
         post_keys = cursor.fetchall()
-        redis.set(key, ujson.dumps(post_keys), ex = 600)
-    else:
-        post_keys = ujson.loads(post_keys)
+
+        pycache.set(key, post_keys, ex = 600)
+
     return post_keys
 
 def get_post(post_id, artist_id, service, reload = False):
