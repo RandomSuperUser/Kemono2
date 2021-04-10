@@ -26,6 +26,7 @@ from src.pages.favorites import favorites
 from src.pages.help import help_app
 from src.pages.proxy import proxy_app
 from src.pages.support import support
+from src.pages.importer import importer_page
 
 app = Flask(
     __name__,
@@ -42,6 +43,7 @@ app.register_blueprint(post)
 app.register_blueprint(account)
 app.register_blueprint(favorites)
 app.register_blueprint(support)
+app.register_blueprint(importer_page)
 
 app.config.from_pyfile('flask.cfg')
 app.jinja_env.globals.update(is_logged_in=is_logged_in)
